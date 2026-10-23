@@ -1,9 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Linkora connects people, helps solve problems, and makes discovering useful places easier.">
+
     <title>Linkora | Connect. Discover. Belong.</title>
 
     <style>
@@ -24,6 +26,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 20px;
             padding: 20px 8%;
             background: white;
             border-bottom: 1px solid #e8edf4;
@@ -36,9 +39,26 @@
             text-decoration: none;
         }
 
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
         .nav-link {
             color: #374151;
             text-decoration: none;
+            font-weight: 600;
+        }
+
+        .nav-link:hover {
+            color: #5145cd;
+        }
+
+        .welcome {
+            color: #374151;
             font-weight: 600;
         }
 
@@ -81,11 +101,15 @@
         .button {
             display: inline-block;
             padding: 13px 25px;
+            border: none;
             border-radius: 9px;
             background: #5145cd;
             color: white;
             text-decoration: none;
+            font-family: inherit;
+            font-size: 15px;
             font-weight: 700;
+            cursor: pointer;
         }
 
         .button:hover {
@@ -151,6 +175,10 @@
             text-decoration: none;
         }
 
+        .card a:hover {
+            text-decoration: underline;
+        }
+
         .community {
             margin: 0 8% 70px;
             padding: 45px 25px;
@@ -179,6 +207,15 @@
         }
 
         @media (max-width: 760px) {
+            nav {
+                padding: 18px 6%;
+                align-items: flex-start;
+            }
+
+            .nav-actions {
+                gap: 12px;
+            }
+
             .hero {
                 padding: 70px 6%;
             }
@@ -196,86 +233,27 @@
                 margin-left: 6%;
             }
         }
+
+        @media (max-width: 480px) {
+            nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-actions {
+                justify-content: center;
+            }
+
+            .welcome {
+                text-align: center;
+            }
+        }
     </style>
 </head>
 
 <body>
     <nav>
         <a class="logo" href="/">Linkora.</a>
-        <a class="nav-link" href="#explore">Explore Linkora</a>
-    </nav>
 
-    <main>
-        <section class="hero">
-            <span class="badge">A world of connections</span>
-
-            <h1>
-                Find your people.<br>
-                Discover your <span>place.</span>
-            </h1>
-
-            <p>
-                Whether you're new to a place or have lived there for years,
-                Linkora helps you discover useful places, connect with people,
-                and find solutions together.
-            </p>
-
-            <a class="button" href="#explore">Discover Linkora &rarr;</a>
-        </section>
-
-        <section class="section" id="explore">
-            <h2>What brings you here?</h2>
-
-            <p class="section-intro">
-                Whatever you need, your next connection or discovery
-                could be closer than you think.
-            </p>
-
-            <div class="cards">
-                <article class="card">
-                    <div class="icon" aria-hidden="true">📍</div>
-                    <h3>Discover Places</h3>
-                    <p>
-                        Find useful places, local services, and interesting
-                        spots around you or in a place you're planning to visit.
-                    </p>
-                    <a href="#community">Explore places &rarr;</a>
-                </article>
-
-                <article class="card">
-                    <div class="icon" aria-hidden="true">🤝</div>
-                    <h3>Connect with People</h3>
-                    <p>
-                        Build meaningful connections, meet people with shared
-                        interests, and become part of a community.
-                    </p>
-                    <a href="#community">Find your community &rarr;</a>
-                </article>
-
-                <article class="card">
-                    <div class="icon" aria-hidden="true">💡</div>
-                    <h3>Solve Problems Together</h3>
-                    <p>
-                        Ask questions, exchange ideas, share useful knowledge,
-                        and help people find the answers they need.
-                    </p>
-                    <a href="#community">Discover possibilities &rarr;</a>
-                </article>
-            </div>
-        </section>
-
-        <section class="community" id="community">
-            <h2>Every connection starts somewhere.</h2>
-            <p>
-                Linkora is being built to make discovering places,
-                meeting people, and solving everyday problems easier.
-            </p>
-            <a class="button" href="#explore">Explore the possibilities</a>
-        </section>
-    </main>
-
-    <footer>
-        &copy; 2026 Linkora. Connecting people, places, and possibilities.
-    </footer>
-</body>
-</html>
+        <div class="nav-actions">
+            <a class="nav
