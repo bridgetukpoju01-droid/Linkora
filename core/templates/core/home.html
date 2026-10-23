@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Linkora connects people, helps solve problems, and makes discovering useful places easier.">
-
     <title>Linkora | Connect. Discover. Belong.</title>
 
     <style>
@@ -42,7 +41,6 @@
         .nav-actions {
             display: flex;
             align-items: center;
-            justify-content: flex-end;
             gap: 20px;
             flex-wrap: wrap;
         }
@@ -57,13 +55,35 @@
             color: #5145cd;
         }
 
-        .welcome {
-            color: #374151;
-            font-weight: 600;
+        .button {
+            display: inline-block;
+            padding: 13px 25px;
+            border: none;
+            border-radius: 9px;
+            background: #5145cd;
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: #4035ad;
+        }
+
+        .button-outline {
+            display: inline-block;
+            padding: 11px 23px;
+            border: 1px solid #5145cd;
+            border-radius: 9px;
+            color: #5145cd;
+            text-decoration: none;
+            font-weight: 700;
         }
 
         .hero {
-            padding: 95px 8% 85px;
+            padding: 95px 8%;
             text-align: center;
             background: linear-gradient(135deg, #eeedff, #f8fafc 65%);
         }
@@ -98,22 +118,12 @@
             font-size: 18px;
         }
 
-        .button {
-            display: inline-block;
-            padding: 13px 25px;
-            border: none;
-            border-radius: 9px;
-            background: #5145cd;
-            color: white;
-            text-decoration: none;
-            font-family: inherit;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .button:hover {
-            background: #4035ad;
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
         }
 
         .section {
@@ -212,16 +222,12 @@
                 align-items: flex-start;
             }
 
-            .nav-actions {
-                gap: 12px;
+            .cards {
+                grid-template-columns: 1fr;
             }
 
             .hero {
                 padding: 70px 6%;
-            }
-
-            .cards {
-                grid-template-columns: 1fr;
             }
 
             .section {
@@ -243,17 +249,104 @@
             .nav-actions {
                 justify-content: center;
             }
-
-            .welcome {
-                text-align: center;
-            }
         }
     </style>
 </head>
 
 <body>
     <nav>
-        <a class="logo" href="/">Linkora.</a>
+        <a class="logo" href="{% url 'home' %}">Linkora.</a>
 
         <div class="nav-actions">
-            <a class="nav
+            {% if user.is_authenticated %}
+                <span>Welcome, {{ user.username }}!</span>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button class="button" type="submit">Log out</button>
+                </form>
+            {% else %}
+                <a class="nav-link" href="{% url 'login' %}">Log in</a>
+                <a class="button" href="{% url 'register' %}">Sign up</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <span class="badge">Connect. Discover. Belong.</span>
+
+            <h1>Your people. Your places. <span>Your Linkora.</span></h1>
+
+            <p>
+                New to a place or looking for a helping hand?
+                Linkora brings people together, helps solve everyday problems,
+                and makes it easier to discover useful places around you.
+            </p>
+
+            <div class="hero-actions">
+                {% if user.is_authenticated %}
+                    <a class="button" href="#discover">Explore Linkora</a>
+                {% else %}
+                    <a class="button" href="{% url 'register' %}">Join Linkora</a>
+                    <a class="button-outline" href="{% url 'login' %}">I already have an account</a>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="section" id="discover">
+            <h2>Discover what Linkora can do</h2>
+
+            <p class="section-intro">
+                Find connections, helpful information, and places that make
+                settling in and living well a little easier.
+            </p>
+
+            <div class="cards">
+                <article class="card">
+                    <div class="icon">🤝</div>
+                    <h3>Connect with People</h3>
+                    <p>
+                        Build meaningful connections and meet people who
+                        understand your community and interests.
+                    </p>
+                    <a href="{% url 'register' %}">Get connected →</a>
+                </article>
+
+                <article class="card">
+                    <div class="icon">📍</div>
+                    <h3>Discover Useful Places</h3>
+                    <p>
+                        Find useful places and local resources to help you
+                        navigate a new or familiar area.
+                    </p>
+                    <a href="{% url 'register' %}">Start discovering →</a>
+                </article>
+
+                <article class="card">
+                    <div class="icon">💡</div>
+                    <h3>Solve Problems Together</h3>
+                    <p>
+                        Ask questions, share helpful knowledge, and learn
+                        from people who can point you in the right direction.
+                    </p>
+                    <a href="{% url 'register' %}">Join the community →</a>
+                </article>
+            </div>
+        </section>
+
+        <section class="community">
+            <h2>Every connection can make a difference.</h2>
+            <p>
+                Join a growing community built around helpful people,
+                useful places, and shared solutions.
+            </p>
+            <a class="button" href="{% url 'register' %}">Get started today</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Linkora. Connecting people, places, and possibilities.</p>
+    </footer>
+</body>
+</html>
+```

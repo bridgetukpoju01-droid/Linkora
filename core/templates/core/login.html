@@ -1,86 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log In | Linkora</title>
-    <style>
-        * { box-sizing: border-box; }
-        body {
-            margin: 0;
-            padding: 25px;
-            font-family: Arial, sans-serif;
-            background: #f4f3ff;
-            color: #202447;
-        }
-        .container {
-            max-width: 430px;
-            margin: 60px auto;
-            padding: 32px;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 8px 30px rgba(32, 36, 71, .08);
-        }
-        .logo {
-            color: #5145cd;
-            font-size: 27px;
-            font-weight: bold;
-            text-decoration: none;
-        }
-        h1 { margin-top: 28px; }
-        p { color: #667085; line-height: 1.6; }
-        label { display: block; margin: 18px 0 6px; font-weight: bold; }
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #d0d5dd;
-            border-radius: 7px;
-            font-size: 15px;
-        }
-        button {
-            width: 100%;
-            margin-top: 24px;
-            padding: 13px;
-            border: none;
-            border-radius: 8px;
-            background: #5145cd;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        button:hover { background: #4035ad; }
-        a { color: #5145cd; }
-        .error { color: #b42318; }
-    </style>
-</head>
-<body>
-    <main class="container">
-        <a class="logo" href="/">Linkora.</a>
+from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from django.urls import path
+from core import views
 
-        <h1>Welcome back! 👋</h1>
-        <p>Log in to continue your Linkora journey.</p>
+urlpatterns = [
+    path("admin/", admin.site.urls),
 
-        {% if form.errors %}
-            <p class="error">Your username or password is incorrect. Please try again.</p>
-        {% endif %}
+    path("", views.home, name="home"),
 
-        <form method="post">
-            {% csrf_token %}
+    path("accounts/register/", views.register, name="register"),
 
-            <label for="{{ form.username.id_for_label }}">Username</label>
-            {{ form.username }}
+    path(
+        "accounts/login/",
+        auth_views.LoginView.as_view(
+            template_name="core/login.html",
+            redirect_authenticated_user=True,
+        ),
+        name="login",
+    ),
 
-            <label for="{{ form.password.id_for_label }}">Password</label>
-            {{ form.password }}
+    path(
+        "accounts/logout/",
+        auth_views.LogoutView.as_view(),
+        name="logout",
+    ),
 
-            <input type="hidden" name="next" value="{{ next }}">
+    path(
+        "accounts/password-reset/",
+        auth_views.PasswordResetView.as_view(
+            template_name="core/password_reset.html",
+            email_template_name="core/password_reset_email.html",
+            subject_template_name="core/password_reset_subject.txt",
+            success_url="/accounts/password-reset/done/",
+        ),
+        name="password_reset",
+    ),
 
-            <button type="submit">Log in</button>
-        </form>
+    path(
+        "accounts/password-reset/done/",
+        auth_views.PasswordResetDoneView.as_view(
+            template_name="core/password_reset_done.html",
+        ),
+        name="password_reset_done",
+    ),
 
-        <p>New to Linkora? <a href="{% url 'register' %}">Create an account</a></p>
-        <p><a href="/">← Back to homepage</a></p>
-    </main>
-</body>
-</html>
+    path(
+        "accounts/reset/<uidb64>/<token>/",
+        auth_views.PasswordResetConfirmView.as_view(
+            template_name="core/password_reset_confirm.html",
+            success_url="/accounts/reset/done/",
+        ),
+        name="password_reset_confirm",
+    ),
+
+    path(
+        "accounts/reset/done/",
+        auth_views.PasswordResetCompleteView.as_view(
+            template_name="core/password_reset_complete.html",
+        ),
+        name="password_reset_complete",
+    ),
+]
