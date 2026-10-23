@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Linkora</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 25px;
+            font-family: Arial, sans-serif;
+            background: #f4f3ff;
+            color: #202447;
+        }
+        .container {
+            max-width: 460px;
+            margin: 45px auto;
+            padding: 32px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(32, 36, 71, .08);
+        }
+        .logo {
+            color: #5145cd;
+            font-size: 27px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        h1 { margin-top: 28px; }
+        p { color: #667085; line-height: 1.6; }
+        label { display: block; margin: 15px 0 6px; font-weight: bold; }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d0d5dd;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+        .help {
+            color: #667085;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #5145cd;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover { background: #4035ad; }
+        a { color: #5145cd; }
+        .errorlist { color: #b42318; }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <a class="logo" href="/">Linkora.</a>
+
+        <h1>Create your account 💜</h1>
+        <p>Join Linkora to discover places, connect with people, and solve problems together.</p>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            {% for field in form %}
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                    <div class="help">{{ field.help_text|safe }}</div>
+                {% endif %}
+                {{ field.errors }}
+            {% endfor %}
+
+            <button type="submit">Create my account</button>
+        </form>
+
+        <p>Already a member? <a href="{% url 'login' %}">Log in</a></p>
+        <p><a href="/">← Back to homepage</a></p>
+    </main>
+</body>
+</html>
